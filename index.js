@@ -1,11 +1,24 @@
-const app = require('express')();
+const express = require('express');
+const path = require('path');
+const ejs = require('ejs');
+
+const app = express();
 const server = require('http').Server(app);
 const socketServer = require('socket.io')(server);
 
-app.get('/', (req, res) => {
-  console.log(`[GET]: /`)
-  res.sendFile(__dirname + '/public/index.html');
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'public'));
+app.engine('html', ejs.renderFile);
+app.set('view engine', 'html');
+
+app.use("/", (req, res) => {
+  res.render("index.html");
 });
+
+// app.get('/', (req, res) => {
+//   console.log(`[GET]: /`)
+//   res.sendFile(__dirname + '/public/index.html');
+// });
 
 var socketId
 
