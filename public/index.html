@@ -13,6 +13,7 @@
     
     <script>
       var socket = io();
+      showAlert(socket);
 
       var messages = document.getElementById('messages');
       var form = document.getElementById('form');
@@ -32,6 +33,14 @@
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
+
+      function showAlert(socket) {
+        var username = prompt("Bem vindo ao jogo *****\nInsira seu apelido:", "");
+        if (username == null || username == "") {
+          return "anonimo"
+        } 
+        socket.emit('login', username)
+      }
     </script>
   </body>
 </html>

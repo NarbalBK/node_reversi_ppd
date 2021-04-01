@@ -20,19 +20,26 @@ app.use("/", (req, res) => {
 //   res.sendFile(__dirname + '/public/index.html');
 // });
 
-var socketId
+var chatUsers = {}
 
 socketServer.on('connect', (socket) => {
-  socketId = socket.id
-  console.log(`[CONNECTION]: O usuário ${socketId} se conectou`)
-
+  const socketId = socket.id
+  
+  socket.on('login', usern => {
+    chatUsers[socketId] = usern
+    console.log(`[CONNECTION]: O usuário ${chatUsers[socketId]} se conectou: ${socketId}`)
+    socketServer.emit('chat message', `${chatUsers[socketId]} entrou na sala...`)
+  })
+  
   socket.on('disconnect', () => {
-    console.log(`[DISCONNECT]: O usuário ${socketId} se desconectou`);
+    console.log(`[DISCONNECT]: O usuário ${chatUsers[socketId]} se desconectou: ${socketId}`);
+    socketServer.emit('chat message', `${chatUsers[socketId]} saiu da sala...`)
+    delete chatUsers[socketId]
   });
 
   socket.on('chat message', msg => {
-    console.log(`[MESSAGE]: ${msg}`);
-    socketServer.emit('chat message', msg);
+    console.log(`[MESSAGE]: ${chatUsers[socketId]}: ${msg}`);
+    socketServer.emit('chat message', `${chatUsers[socketId]}: ${msg}`);
   });
 });
 
