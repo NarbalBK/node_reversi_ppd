@@ -20,7 +20,7 @@ div#chat {
   max-height: 600px;
   background-color: coral;
   font: 13px Helvetica, Arial;
-  overflow: auto;
+  overflow:auto;
 }
 
 div#game {
@@ -37,6 +37,7 @@ canvas#screen {
 div#menu {
   width: 200px;
   max-height: 600px;
+  align-content: center;
   background-color: hotpink;
 }
 
@@ -158,6 +159,14 @@ table.table td img{
 
 .clear{
 	clear: both;
+}
+
+div#cor {
+
+}
+
+div#turno{
+  
 }
 
 /* ######################################################################### */

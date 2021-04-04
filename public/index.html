@@ -245,16 +245,33 @@
         </table>
       </div>
     </div>
-    <div id="menu"></div>
+    <div id="menu">
+      <div id = "cor">
+        <p>Com que cor você deseja jogar?</p>
+        <tr>
+          <td><button id = preto>Preto</button></td>
+          <td><button id = branco>Branco</button></td>
+        </tr>
+      </div>
+      <div id = "turno">
+        <p>Troca de turno</p>
+        <tr>
+          <td><button id = troca onclick="trocarDeTurno()">trocar</button></td>
+      </div>
+    </div>
     <div id="log"></div>
   </div>
 
   <script>
     socket = login();
+    var tabuleiro = []
 
     var messages = document.getElementById('messages');
     var form = document.getElementById('form');
     var input = document.getElementById('input');
+    var corDoJogador = ""
+    var turno = "preto"
+    var clique = ""
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -272,6 +289,30 @@
       document.getElementById("form").scrollIntoView(true)
     });
 
+    socket.on("tabuleiro", (tab)=>{
+      tabuleiro = tab
+    })
+
+    socket.on("cores disponiveis", (cores) => {
+      if (cores.length > 1){
+        document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)'>Preto</button>"
+        document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)'>Branco</button>"
+      }
+      else if (cores[0] == "preto"){
+        corDoJogador = "branco"
+        document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)' disabled>Branco</button>"
+      }
+      else if(cores[0] == "branco"){
+        corDoJogador = "preto"
+        document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)' disabled>Preto</button>"
+      }
+      else{
+        document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)' disabled>Branco</button>"
+        document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)' disabled>Preto</button>"
+        render(tabuleiro)
+      }
+    })
+
     function login() {
       var username = prompt("Bem vindo ao jogo *****\nInsira seu apelido:", "");
       if (username == null || username == "") {
@@ -281,6 +322,26 @@
       socket.emit('login', username)
       return socket
     }
+
+    function render(tabuleiro){
+      for(i = 1; i <= 8; i++){
+        for(j = 1; j <= 8; j++){
+          // verificar turno do cara para habiitar o clique
+          if (corDoJogador == turno && turno != ""){
+            clique = 'onclick="console.log('+i+','+j+')"';
+          }else{
+            clique = ""
+          }
+          document.all.item("tabuleiro"+(i)+(j)).innerHTML = '<img src="/images/'+tabuleiro[i][j]+'.gif" '+clique+' width="35" height="35">';
+        }
+      }
+    }
+
+    function escolherCor(cor){
+      socket.emit("cor", cor)
+      console.log("clicando")
+    }
+
   </script>
 </body>
 
