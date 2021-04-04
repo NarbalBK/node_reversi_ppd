@@ -20,6 +20,7 @@ div#chat {
   max-height: 600px;
   background-color: coral;
   font: 13px Helvetica, Arial;
+  overflow: auto;
 }
 
 div#game {
