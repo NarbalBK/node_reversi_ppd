@@ -84,6 +84,82 @@ form button {
   background: #efefef;
 }
 
+/* ##################################################################### */
+div#gamearea{
+    margin: 0;
+    background: yellow;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
+    margin-right: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.cabecalho{
+	border: 1px solid transparent;
+	background-color: #333333;
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	color: #FFFFFF;
+}
+
+.pl1{
+	display: inline-block;
+	background-image: url("../../branco.gif");
+	width: 35px;
+	height: 35px;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	float: left;
+	line-height: 35px;
+}
+.pl1 b{
+	text-align: center;
+	font-weight: bold;
+	color: #000;
+}
+.plcenter{
+	display: inline-block;
+	line-height: 35px;
+}
+
+.pl2{
+    background-image: url("../../preto.gif");
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+	background-size: 100%;
+    font-color: #FFFFFF;
+	float: right;
+	line-height: 35px;
+}
+.pl2 b{
+	text-align: center;
+	font-weight: bold;
+}
+
+table.table{
+	border: 1px solid #000000;
+	background-color: #bebebe;
+}
+
+table.table td{
+	width: 40px;
+	height: 40px;
+	border: 1px solid #000000;
+}
+
+table.table td img{
+	width: 35px;
+	height: 35px;
+}
+
+.clear{
+	clear: both;
+}
+
 /* ######################################################################### */
 
 /* body {
