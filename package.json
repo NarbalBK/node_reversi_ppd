@@ -4,7 +4,8 @@
   "description": "simple chat",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --inspect ./index.js"
   },
   "author": "pericles narbal <periclesnarbal@gmail.com>",
   "license": "MIT",

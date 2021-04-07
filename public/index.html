@@ -293,22 +293,21 @@
       tabuleiro = tab
     })
 
-    socket.on("cores disponiveis", (cores) => {
-      if (cores.length > 1){
+    socket.on("cores disponiveis", (coresD) => {
+      coresLength = coresD["coresDisponiveis"].length
+      if (coresLength > 1 && coresD["cor"] == ""){
         document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)'>Preto</button>"
         document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)'>Branco</button>"
       }
-      else if (cores[0] == "preto"){
-        corDoJogador = "branco"
-        document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)' disabled>Branco</button>"
-      }
-      else if(cores[0] == "branco"){
-        corDoJogador = "preto"
+      else if (coresD["cor"] == "preto"){
+        corDoJogador = coresD["cor"]
         document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)' disabled>Preto</button>"
       }
-      else{
+      else if(coresD["cor"] == "branco"){
+        corDoJogador = coresD["cor"]
         document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)' disabled>Branco</button>"
-        document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)' disabled>Preto</button>"
+      }
+      if (coresLength == 1){
         render(tabuleiro)
       }
     })

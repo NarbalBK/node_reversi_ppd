@@ -32,7 +32,7 @@ socketServer.on('connect', (socket) => {
     console.log(`[CONNECTION]: O usuário ${chatUsers[socketId]} se conectou: ${socketId}`)
     socketServer.emit('chat message', `${chatUsers[socketId]} entrou na sala...`)
     socket.emit("tabuleiro", tabuleiro);
-    socket.emit("cores disponiveis", coresDisponiveis)
+    socket.emit("cores disponiveis", {coresDisponiveis: coresDisponiveis, cor: ""})
   })
   
   socket.on('disconnect', () => {
@@ -50,9 +50,9 @@ socketServer.on('connect', (socket) => {
     console.log("SOCKET ON COR")
     var status = coresDisponiveis.indexOf(cor);
     if (status != -1){
+      socketServer.emit("cores disponiveis", {coresDisponiveis: coresDisponiveis, cor: cor})
       coresDisponiveis.splice(status, 1);
     }
-    socketServer.emit("cores disponiveis", coresDisponiveis)
   })
 });
 
