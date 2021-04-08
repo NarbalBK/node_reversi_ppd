@@ -276,12 +276,14 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (input.value) {
+        console.log(`enviando mensagem chat message: ${input.value}`)
         socket.emit('chat message', input.value);
         input.value = '';
       }
     });
 
     socket.on('chat message', function (msg) {
+      console.log(`recebendo chat message do servidor: ${msg}`)
       var item = document.createElement('li');
       item.textContent = msg;
       messages.appendChild(item);
@@ -290,26 +292,45 @@
     });
 
     socket.on("tabuleiro", (tab)=>{
+      console.log(`recebeu tabuleiro`)
       tabuleiro = tab
     })
 
     socket.on("cores disponiveis", (coresD) => {
+      console.log(`verficando cores disponiveis: ${coresD}`)
       coresLength = coresD["coresDisponiveis"].length
       if (coresLength > 1 && coresD["cor"] == ""){
         document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)'>Preto</button>"
         document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)'>Branco</button>"
       }
       else if (coresD["cor"] == "preto"){
-        corDoJogador = coresD["cor"]
+        console.log(`desabilita botao: ${coresD["cor"]}`)
         document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)' disabled>Preto</button>"
       }
       else if(coresD["cor"] == "branco"){
-        corDoJogador = coresD["cor"]
+        console.log(`desabilita botao: ${coresD["cor"]}`)
         document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)' disabled>Branco</button>"
       }
       if (coresLength == 1){
         render(tabuleiro)
       }
+    })
+
+    socket.on("cor", cor => {
+      console.log(`atribui cor do jogador: ${cor}`)
+      corDoJogador = cor
+      if (cor == "preto"){
+        console.log(`desabilita botao: branco`)
+        document.getElementById("branco").innerHTML = "<button id = branco onclick='escolherCor(`branco`)' disabled>Branco</button>"
+      }else{
+        console.log(`desabilita botao: preto`)
+        document.getElementById("preto").innerHTML = "<button id = preto onclick='escolherCor(`preto`)' disabled>Preto</button>"
+      }
+    })
+
+    socket.on("turno", newTurno => {
+      console.log(`recebendo turno: ${newTurno}`)
+      turno = newTurno
     })
 
     function login() {
@@ -318,15 +339,18 @@
         username = "anonimo"
       }
       var socket = io();
+      console.log(`username: ${username}`)
       socket.emit('login', username)
       return socket
     }
 
     function render(tabuleiro){
+      console.log(`[funcao] render tabuleiro`)
       for(i = 1; i <= 8; i++){
         for(j = 1; j <= 8; j++){
           // verificar turno do cara para habiitar o clique
           if (corDoJogador == turno && turno != ""){
+            console.log(`agora você pode clicar`)
             clique = 'onclick="console.log('+i+','+j+')"';
           }else{
             clique = ""
@@ -337,8 +361,13 @@
     }
 
     function escolherCor(cor){
+      console.log(`[funcao] escolherCor cor`)
       socket.emit("cor", cor)
-      console.log("clicando")
+    }
+
+    function trocarDeTurno(){
+      console.log(`[funcao] trocaDeTurno`)
+        socket.emit("turno", turno)
     }
 
   </script>
