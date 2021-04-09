@@ -331,6 +331,7 @@
     socket.on("turno", newTurno => {
       console.log(`recebendo turno: ${newTurno}`)
       turno = newTurno
+      render(tabuleiro)
     })
 
     function login() {
@@ -351,7 +352,7 @@
           // verificar turno do cara para habiitar o clique
           if (corDoJogador == turno && turno != ""){
             console.log(`agora você pode clicar`)
-            clique = 'onclick="console.log('+i+','+j+')"';
+            clique = 'onclick="acaoDoBotao('+i+','+j+')"';
           }else{
             clique = ""
           }
@@ -368,6 +369,15 @@
     function trocarDeTurno(){
       console.log(`[funcao] trocaDeTurno`)
         socket.emit("turno", turno)
+    }
+
+    function acaoDoBotao(i, j){
+      console.log(`[funcao] acaoDoBotao: args(${i}, ${j})`)
+      // tenho que pegar do tabuleiro e nao da div
+      var casa = document.all.item("tabuleiro"+(i)+(j))
+      var imagem = casa.getElementsByTagName('img')[0];
+      var url = imagem.src;
+      console.log(url)
     }
 
   </script>
