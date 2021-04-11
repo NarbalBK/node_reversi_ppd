@@ -41,12 +41,6 @@ div#menu {
   background-color: hotpink;
 }
 
-div#log {
-  width: 150px;
-  max-height: 600px;
-  background-color: magenta;
-}
-
 form {
   background: #000;
   padding: 3px;
@@ -108,7 +102,7 @@ div#gamearea{
 
 .pl1{
 	display: inline-block;
-	background-image: url("../../branco.gif");
+	background-image: url("/images/branco.gif");
 	width: 35px;
 	height: 35px;
 	background-repeat: no-repeat;
@@ -127,7 +121,7 @@ div#gamearea{
 }
 
 .pl2{
-    background-image: url("../../preto.gif");
+    background-image: url("/images/preto.gif");
     width: 35px;
     height: 35px;
     background-repeat: no-repeat;
