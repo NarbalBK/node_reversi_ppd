@@ -70,6 +70,27 @@ socketServer.on('connect', (socket) => {
     socketServer.emit("turno", turno)
     console.log(`enviou resposta de turno: ${turno}`)
   })
+
+  socket.on("tabuleiro", novoTabuleiro => {
+    console.log(`recebeu novo tabuleiro`)
+    tabuleiro = novoTabuleiro
+    socketServer.emit("tabuleiro", tabuleiro)
+  })
+
+  socket.on("desistir", desistente => {
+    console.log(`recebeu desistencia`)
+    msg = ""
+    if (desistente == "preto"){
+      msg = 'Game Over\n# O jogador Branco é o vencedor #'
+    }else{
+      msg = 'Game Over\n# O jogador Preto é o vencedor #'
+    }
+    socketServer.emit("desistir", msg)
+    tabuleiro = createMatrix()
+    chatUsers = {}
+    socketServer.emit("tabuleiro", tabuleiro)
+    coresDisponiveis = ["branco", "preto"]
+  })
 });
 
 server.listen(3000, () => {
