@@ -293,8 +293,6 @@
       var item = document.createElement('li');
       item.textContent = msg;
       messages.appendChild(item);
-      messages.scrollIntoView(true)
-      document.getElementById("form").scrollIntoView(true)
     });
 
     socket.on("tabuleiro", (tab)=>{
@@ -382,6 +380,10 @@
       }
       document.getElementById("branco_pontos").innerHTML = `<b id="branco_pontos">${auxBrancas}</b>`
       document.getElementById("preto_pontos").innerHTML = `<b id="preto_pontos">${auxPretas}</b>`
+      if (auxPretas == 32 && auxBrancas == 32){
+        alert("Game Over\n# O jogo acabou empatado!")
+        window.location.reload(true)
+      }
       if (auxPretas + auxBrancas == 64){
         if (auxPretas > auxBrancas){
           desistirDaPartida("branco")
